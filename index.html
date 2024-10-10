@@ -1,0 +1,94 @@
+<!DOCTYPE hmtl>
+
+<head>
+	<title>Papieżowa</title>
+	<style>
+		.base {
+			text-align: center;
+			color: white;
+			font-family: 'Times New Roman', serif;
+			font-size: 72;
+		}
+	</style>
+</head>
+
+<body style="background-color: rgba(12, 12, 12, 1.0);" id="docbody">
+	<div>
+		<br>
+		<h1 id="clock" style="font-family: Times New Roman, serif; font-size: 128; color: white; text-align: center; background-color: rgba(12, 12, 12, .5);"></h1>
+	</div>
+
+	<div class="base">
+		<br>
+		<p id="barkakurwa"></p>
+	</div>
+
+	<div>
+		<audio id="ticksound" src="audio/time.mp3"></audio>
+		<audio id="hoursound" src="audio/hour.mp3"></audio>
+	</div>
+
+	<script>
+			let lastTime = 0;
+
+			const audio = new Audio();
+
+			let divider = ":";
+
+			setInterval(() => {
+                if(document.getElementById('vid')){
+                    document.getElementById('vid').play();   
+                }
+			}, 1);
+
+			setInterval(() => {
+				if(divider == ":") {
+					divider = " ";
+				} else {
+					divider = ":";
+				}
+			}, 1000);
+
+			setInterval(() => {
+				const date = new Date();
+				let endstring = date.getHours();
+				endstring += divider;
+
+				let minutes = date.getMinutes();
+
+				if(minutes != lastTime) {
+					if(date.getMinutes() == 0) {
+						document.getElementById('hoursound').play();
+					} else {
+						document.getElementById('ticksound').play();
+					}
+
+					if(date.getHours() == 21 && date.getMinutes() == 37) {
+						document.getElementById('barkakurwa').innerHTML = "<video width="+"560"+" height="+"315"+" id="+'"vid"'+"><source src="+"vid/barka.mp4"+"></source></video>";
+						document.getElementById('vid').currentTime = 32;
+						document.getElementById('docbody').setAttribute('style', "background-color: #C3831A")
+					} else {
+						document.getElementById('barkakurwa').innerHTML = "";
+						document.getElementById('docbody').setAttribute('style', "background-color: rgba(12, 12, 12, 1.0);")
+					}
+				}
+
+				let minuteString = minutes.toString();
+
+				if(minuteString.length == 1) {
+					minuteString = "0" + minuteString;
+				}
+
+				endstring += minuteString;
+
+				lastTime = minutes;
+
+				document.getElementById("clock").innerHTML = endstring;
+			}, 50);
+	</script>
+
+	<noscript>
+		<br>
+		<p class="base">Browser does not support JavaScript, hence the site won't work</p>
+	</noscript>
+</body>
